@@ -160,14 +160,19 @@ function getMessage(token, userId, messageId) {
         }
       }
     
+      var messageDate = '';
+      var messageSubject = '';
       var messageFrom = '';
+
       var messageHeaders = data.payload.headers;
       for (var k=0; k<messageHeaders.length; k++) {
+        if (messageHeaders[k].name == "Date") messageDate = messageHeaders[k].value;
+        if (messageHeaders[k].name == "Subject") messageSubject = messageHeaders[k].value;
         if (messageHeaders[k].name == "From") messageFrom = messageHeaders[k].value;
       }
 
-      // console.log(decodedBody);
-      createMessageCard("Subject", "from: "+messageFrom, cleanHTMLoutput);
+      // console.log(data);
+      createMessageCard(messageSubject, 'from: '+messageFrom+' | '+messageDate, cleanHTMLoutput);
     
     })
     .catch(err => console.log(err));
